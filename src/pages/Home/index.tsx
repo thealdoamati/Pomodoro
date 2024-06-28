@@ -8,8 +8,16 @@ import {
   StartCountdownButton,
   TaskInput,
 } from './styles'
+import { useState } from 'react'
 
 export function Home() {
+  const [task, setTask] = useState('')
+  const [minutes, setMinutes] = useState('')
+
+  function handleSubmit() {
+    event.target.task.value
+  }
+
   return (
     <HomeContainer>
       <form action="">
