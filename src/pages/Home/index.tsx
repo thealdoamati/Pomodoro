@@ -25,12 +25,12 @@ type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
 
 interface Cycle {
   id: string
-  tarefa: string
+  task: string
   minutesAmount: number
 }
 
 export function Home() {
-  const [] = useState<Cycle[]>([])
+  const [cycles, setCycles] = useState<Cycle[]>([])
   const { register, handleSubmit, watch, reset } = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
     defaultValues: {
@@ -40,8 +40,13 @@ export function Home() {
   })
 
   function handleCreateNewCycle(data: NewCycleFormData) {
-    event?.preventDefault()
-    console.log(data)
+    const newCycle: Cycle = {
+      id: String(new Date().getTime()),
+      task: data.task,
+      minutesAmount: data.minutesAmount,
+    }
+    // Como eu dependendo do meu valor antigo, é interessante criar estado em formato de função
+    setCycles((state) => [...state, newCycle])
     reset()
   }
 
