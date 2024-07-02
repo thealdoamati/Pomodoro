@@ -1,4 +1,5 @@
 import { Play } from 'phosphor-react'
+import { useState } from 'react'
 import {
   CountDownContainer,
   FormContainer,
@@ -14,20 +15,35 @@ import * as zod from 'zod'
 
 const newCycleFormValidationSchema = zod.object({
   task: zod.string().min(1, 'Informe a tarefa'),
-  minutesAmount: zod.number().min(5).max(60),
+  minutesAmount: zod
+    .number()
+    .min(5, 'O ciclo precisa ser de no mínimo 5 minutos')
+    .max(60, 'O cicle precisa ser de no máximo 60 minutos'),
 })
 
+type NewCycleFormData = zod.infer<typeof newCycleFormValidationSchema>
+
+interface Cycle {
+  id: string
+  tarefa: string
+  minutesAmount: number
+}
+
 export function Home() {
-  const { register, handleSubmit, watch, formState } = useForm({
+  const [] = useState<Cycle[]>([])
+  const { register, handleSubmit, watch, reset } = useForm<NewCycleFormData>({
     resolver: zodResolver(newCycleFormValidationSchema),
+    defaultValues: {
+      task: '',
+      minutesAmount: 0,
+    },
   })
 
-  function handleCreateNewCycle(data: any) {
+  function handleCreateNewCycle(data: NewCycleFormData) {
     event?.preventDefault()
     console.log(data)
+    reset()
   }
-
-  console.log(formState.errors)
 
   // Observando o campo de task em tempo real
   const task = watch('task')
