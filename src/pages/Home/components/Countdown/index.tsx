@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react'
 import { CountDownContainer, Separator } from './styles'
 import { differenceInSeconds } from 'date-fns'
 
-export function Countdown() {
+interface CountdownProps {
+  activeCycle: any
+}
+
+export function Countdown({ activeCycle }: CountdownProps) {
   const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
 
   // Como o forms é em minuto precisamos manusear em segundos no count
