@@ -1,12 +1,16 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 import { CountDownContainer, Separator } from './styles'
 import { differenceInSeconds } from 'date-fns'
 import { CyclesContext } from '../..'
 
 export function Countdown() {
-  const [amountSecondsPassed, setAmountSecondsPassed] = useState(0)
-  const { activeCycle, activeCycleId, markCurrentCycleAsFinished } =
-    useContext(CyclesContext)
+  const {
+    activeCycle,
+    activeCycleId,
+    markCurrentCycleAsFinished,
+    amountSecondsPassed,
+    setSecondsPassed,
+  } = useContext(CyclesContext)
   // Como o forms é em minuto precisamos manusear em segundos no count
   const totalSeconds = activeCycle ? activeCycle.minutesAmount * 60 : 0
 
@@ -26,7 +30,7 @@ export function Countdown() {
           clearInterval(interval)
         } else {
           // Se o total de segundos não passou, então eu continuo contabilizando
-          setAmountSecondsPassed(secondsDifference)
+          setSecondsPassed(secondsDifference)
         }
       }, 1000)
     }
